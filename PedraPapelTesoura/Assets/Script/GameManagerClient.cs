@@ -1,10 +1,11 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class GameManager : MonoBehaviour
+public class GameManagerClient : MonoBehaviour
 {
 
-    private Server server;
+    private Client client;
+    
     [Header("Game State")]
     public string escolha1, escolha2, vencedor;
 
@@ -25,55 +26,57 @@ public class GameManager : MonoBehaviour
 
     void OnEnable()
     {
-        Server.OnReceivedMessage += OnReceivedMessage;
+        Client.OnReceivedMessage += OnReceivedMessage;
     }
 
     void OnDisable()
     {
-        Server.OnReceivedMessage -= OnReceivedMessage;
-    }   
+        Client.OnReceivedMessage -= OnReceivedMessage;
+    }  
 
-    public void setEscolha1(string escolha)
+    public void setEscolha2(string escolha)
     {
-        escolha1 = escolha;
-        server.SendData("state:yourturn");
-        server.SendData("escolha1:" + escolha1);
+        escolha2 = escolha;
+        client.SendData(escolha2);
         ChangeCanvas(1);
     }
 
     void OnReceivedMessage(string message)
     {
-        escolha2 = message;
-        MinhaFunc();
-    }
-
-    void MinhaFunc()
-    {
-        CheckWinner();
-        ChangeCanvas(2);
-    }
-
-
-    void CheckWinner()
-    {
-        if(escolha1 == escolha2)
+        switch(message)
         {
-            vencedor = "Empate!";
-            server.SendData("winner:tie");
+            case "state:yourturn":
+                ChangeCanvas(1);
+                break;
+            case "escolha1:Pedra":
+                escolha1 = "Pedra";
+                break;
+            case "escolha1:Papel":
+                escolha1 = "Papel";
+                break;
+            case "escolha1:Tesoura":
+                escolha1 = "Tesoura";
+                break;
+            case "winner:player1":
+                vencedor = "Player 1 Ganhou!";
+                ChangeCanvas(2);
+                FinalScreen();
+                break;
+            case "winner:player2":
+                vencedor = "Player 2 Ganhou!";
+                ChangeCanvas(2);
+                FinalScreen();
+                break;
+            case "winner:tie":
+                vencedor = "Empate!";
+                ChangeCanvas(2);
+                FinalScreen();
+                break;
         }
-        else if((escolha1 == "Pedra" && escolha2 == "Tesoura") || (escolha1 == "Papel" && escolha2 == "Pedra") || (escolha1 == "Tesoura" && escolha2 == "Papel"))
-        {
-            vencedor = "Player 1 Ganhou!";
-            server.SendData("winner:player1");
-        }
-        else
-        {
-            vencedor = "Player 2 Ganhou!";
-            server.SendData("winner:player2");
-        }
-        FinalScreen();
-    }
 
+
+    }
+    
     void ChangeCanvas(int index)
     {
         switch (index)
