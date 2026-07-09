@@ -1561,19 +1561,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6007613388672914208, guid: 47a8e31f7d44cb746b800be01baaa3e1, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 3
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 6007613388672914208, guid: 47a8e31f7d44cb746b800be01baaa3e1, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1016181759}
     - target: {fileID: 6007613388672914208, guid: 47a8e31f7d44cb746b800be01baaa3e1, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: Escolha
+      value: setEscolha2
       objectReference: {fileID: 0}
     - target: {fileID: 6007613388672914208, guid: 47a8e31f7d44cb746b800be01baaa3e1, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: GameManager, Assembly-CSharp
+      value: GameManagerClient, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 6007613388672914208, guid: 47a8e31f7d44cb746b800be01baaa3e1, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
+      value: Pedra
       objectReference: {fileID: 0}
     - target: {fileID: 6146233086974333879, guid: 47a8e31f7d44cb746b800be01baaa3e1, type: 3}
       propertyPath: m_Color.b
@@ -1617,23 +1621,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6927729431846253074, guid: 47a8e31f7d44cb746b800be01baaa3e1, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 3
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 6927729431846253074, guid: 47a8e31f7d44cb746b800be01baaa3e1, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1016181755}
+      objectReference: {fileID: 1016181759}
     - target: {fileID: 6927729431846253074, guid: 47a8e31f7d44cb746b800be01baaa3e1, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: 
+      value: setEscolha2
       objectReference: {fileID: 0}
     - target: {fileID: 6927729431846253074, guid: 47a8e31f7d44cb746b800be01baaa3e1, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: GameManager, Assembly-CSharp
+      value: GameManagerClient, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 6927729431846253074, guid: 47a8e31f7d44cb746b800be01baaa3e1, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6927729431846253074, guid: 47a8e31f7d44cb746b800be01baaa3e1, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
+      value: Papel
       objectReference: {fileID: 0}
     - target: {fileID: 7675115137086369075, guid: 47a8e31f7d44cb746b800be01baaa3e1, type: 3}
       propertyPath: m_Name
@@ -1641,23 +1649,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7711469229173216479, guid: 47a8e31f7d44cb746b800be01baaa3e1, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 3
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7711469229173216479, guid: 47a8e31f7d44cb746b800be01baaa3e1, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1016181759}
     - target: {fileID: 7711469229173216479, guid: 47a8e31f7d44cb746b800be01baaa3e1, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: Escolha
+      value: setEscolha2
       objectReference: {fileID: 0}
     - target: {fileID: 7711469229173216479, guid: 47a8e31f7d44cb746b800be01baaa3e1, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: GameManager, Assembly-CSharp
+      value: GameManagerClient, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 7711469229173216479, guid: 47a8e31f7d44cb746b800be01baaa3e1, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7711469229173216479, guid: 47a8e31f7d44cb746b800be01baaa3e1, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
+      value: Tesoura
       objectReference: {fileID: 0}
     - target: {fileID: 8456928733315915706, guid: 47a8e31f7d44cb746b800be01baaa3e1, type: 3}
       propertyPath: m_Name
