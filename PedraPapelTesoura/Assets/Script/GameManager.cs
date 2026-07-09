@@ -1,12 +1,15 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Collections.Generic;
 
 public class GameManager : MonoBehaviour
 {
-
     private Server server;
+
     [Header("Game State")]
-    public string escolha1, escolha2, vencedor;
+    public string escolha1;
+    public string escolha2;
+    public string vencedor;
 
     [Header("Canvas")]
     [SerializeField] private GameObject canvas1;
@@ -18,50 +21,75 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TMPro.TextMeshProUGUI escolha2Text;
     [SerializeField] private TMPro.TextMeshProUGUI vencedorText;
 
+    //Fila de mensagens (thread segura)
+    private readonly Queue<string> mensagens = new Queue<string>();
+
     void Awake()
     {
+        server = FindObjectOfType<Server>();
+
         ChangeCanvas(0);
     }
 
     void OnEnable()
     {
-        Server.OnReceivedMessage += OnReceivedMessage;
+        Server.OnReceivedMessage += ReceberMensagem;
     }
 
     void OnDisable()
     {
-        Server.OnReceivedMessage -= OnReceivedMessage;
-    }   
+        Server.OnReceivedMessage -= ReceberMensagem;
+    }
 
+    void Update()
+    {
+        while (mensagens.Count > 0)
+        {
+            ProcessarMensagem(mensagens.Dequeue());
+        }
+    }
+
+    void ReceberMensagem(string mensagem)
+    {
+        lock (mensagens)
+        {
+            mensagens.Enqueue(mensagem);
+        }
+    }
+
+    void ProcessarMensagem(string mensagem)
+    {
+        if (mensagem.StartsWith("escolha2:"))
+        {
+            escolha2 = mensagem.Substring(9);
+
+            CheckWinner();
+            ChangeCanvas(2);
+        }
+    }
+
+    //Player 1 escolheu
     public void setEscolha1(string escolha)
     {
         escolha1 = escolha;
+
         server.SendData("state:yourturn");
         server.SendData("escolha1:" + escolha1);
+
         ChangeCanvas(1);
     }
 
-    void OnReceivedMessage(string message)
-    {
-        escolha2 = message;
-        MinhaFunc();
-    }
-
-    void MinhaFunc()
-    {
-        CheckWinner();
-        ChangeCanvas(2);
-    }
-
-
     void CheckWinner()
     {
-        if(escolha1 == escolha2)
+        if (escolha1 == escolha2)
         {
             vencedor = "Empate!";
             server.SendData("winner:tie");
         }
-        else if((escolha1 == "Pedra" && escolha2 == "Tesoura") || (escolha1 == "Papel" && escolha2 == "Pedra") || (escolha1 == "Tesoura" && escolha2 == "Papel"))
+        else if (
+            (escolha1 == "Pedra" && escolha2 == "Tesoura") ||
+            (escolha1 == "Papel" && escolha2 == "Pedra") ||
+            (escolha1 == "Tesoura" && escolha2 == "Papel"))
         {
             vencedor = "Player 1 Ganhou!";
             server.SendData("winner:player1");
@@ -71,30 +99,15 @@ public class GameManager : MonoBehaviour
             vencedor = "Player 2 Ganhou!";
             server.SendData("winner:player2");
         }
+
         FinalScreen();
     }
 
     void ChangeCanvas(int index)
     {
-        switch (index)
-        {
-            case 0:
-                canvas1.SetActive(true);
-                canvas2.SetActive(false); //desativa tudo e deixa so o 1 (player 1)
-                canvas3.SetActive(false);
-                break;
-            case 1:
-                canvas1.SetActive(false);
-                canvas2.SetActive(true); // desativa tudo e deixa so o 2 (player 2)
-                canvas3.SetActive(false);
-                break;
-            case 2:
-                canvas1.SetActive(false);
-                canvas2.SetActive(false); // desativa tudo e deixa so o 3 (tela final)
-                canvas3.SetActive(true);
-                break;
-        
-        }
+        canvas1.SetActive(index == 0);
+        canvas2.SetActive(index == 1);
+        canvas3.SetActive(index == 2);
     }
 
     void FinalScreen()

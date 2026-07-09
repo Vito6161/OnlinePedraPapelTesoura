@@ -524,6 +524,7 @@ GameObject:
   m_Component:
   - component: {fileID: 737292975}
   - component: {fileID: 737292974}
+  - component: {fileID: 737292976}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -567,6 +568,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &737292976
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 737292973}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a90b93754ee2f14d82fdccb6eb6395d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Server
+  port: 7777
+  receivedMessage: 
 --- !u!1001 &774339606
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1086,7 +1101,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1021587317084051024, guid: 47a8e31f7d44cb746b800be01baaa3e1, type: 3}
       propertyPath: m_text
-      value: 'Escolha:'
+      value: 'Aguarde
+
+'
+      objectReference: {fileID: 0}
+    - target: {fileID: 1021587317084051024, guid: 47a8e31f7d44cb746b800be01baaa3e1, type: 3}
+      propertyPath: m_HorizontalAlignment
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1133421282516446801, guid: 47a8e31f7d44cb746b800be01baaa3e1, type: 3}
       propertyPath: m_text
@@ -1212,11 +1233,11 @@ PrefabInstance:
       objectReference: {fileID: -6443241793956281255, guid: da99a64b8100665478c5ce4b134ec537, type: 3}
     - target: {fileID: 5754300108315074458, guid: 47a8e31f7d44cb746b800be01baaa3e1, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 135.4925
+      value: 150.9543
       objectReference: {fileID: 0}
     - target: {fileID: 5754300108315074458, guid: 47a8e31f7d44cb746b800be01baaa3e1, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0.00001049
+      value: -0.00001812
       objectReference: {fileID: 0}
     - target: {fileID: 6007613388672914208, guid: 47a8e31f7d44cb746b800be01baaa3e1, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
@@ -1327,7 +1348,10 @@ PrefabInstance:
       value: Text
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 55394256175057435, guid: 47a8e31f7d44cb746b800be01baaa3e1, type: 3}
+    - {fileID: 8456928733315915706, guid: 47a8e31f7d44cb746b800be01baaa3e1, type: 3}
+    - {fileID: 1465682393654699685, guid: 47a8e31f7d44cb746b800be01baaa3e1, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 47a8e31f7d44cb746b800be01baaa3e1, type: 3}

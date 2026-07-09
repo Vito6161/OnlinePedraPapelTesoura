@@ -1,13 +1,15 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Collections.Generic;
 
 public class GameManagerClient : MonoBehaviour
 {
-
     private Client client;
-    
+
     [Header("Game State")]
-    public string escolha1, escolha2, vencedor;
+    public string escolha1;
+    public string escolha2;
+    public string vencedor;
 
     [Header("Canvas")]
     [SerializeField] private GameObject canvas1;
@@ -19,85 +21,86 @@ public class GameManagerClient : MonoBehaviour
     [SerializeField] private TMPro.TextMeshProUGUI escolha2Text;
     [SerializeField] private TMPro.TextMeshProUGUI vencedorText;
 
+    private readonly Queue<string> mensagens = new Queue<string>();
+
     void Awake()
     {
+        client = FindObjectOfType<Client>();
+
         ChangeCanvas(0);
     }
 
     void OnEnable()
     {
-        Client.OnReceivedMessage += OnReceivedMessage;
+        Client.OnReceivedMessage += ReceberMensagem;
     }
 
     void OnDisable()
     {
-        Client.OnReceivedMessage -= OnReceivedMessage;
-    }  
+        Client.OnReceivedMessage -= ReceberMensagem;
+    }
+
+    void Update()
+    {
+        lock (mensagens)
+        {
+            while (mensagens.Count > 0)
+            {
+                ProcessarMensagem(mensagens.Dequeue());
+            }
+        }
+    }
+
+    void ReceberMensagem(string mensagem)
+    {
+        lock (mensagens)
+        {
+            mensagens.Enqueue(mensagem);
+        }
+    }
+
+    void ProcessarMensagem(string mensagem)
+    {
+        if (mensagem == "state:yourturn")
+        {
+            ChangeCanvas(1);
+        }
+        else if (mensagem.StartsWith("escolha1:"))
+        {
+            escolha1 = mensagem.Substring(9);
+        }
+        else if (mensagem == "winner:player1")
+        {
+            vencedor = "Player 1 Ganhou!";
+            ChangeCanvas(2);
+            FinalScreen();
+        }
+        else if (mensagem == "winner:player2")
+        {
+            vencedor = "Player 2 Ganhou!";
+            ChangeCanvas(2);
+            FinalScreen();
+        }
+        else if (mensagem == "winner:tie")
+        {
+            vencedor = "Empate!";
+            ChangeCanvas(2);
+            FinalScreen();
+        }
+    }
 
     public void setEscolha2(string escolha)
     {
         escolha2 = escolha;
-        client.SendData(escolha2);
-        ChangeCanvas(1);
+
+        client.SendData("escolha2:" + escolha2);
     }
 
-    void OnReceivedMessage(string message)
-    {
-        switch(message)
-        {
-            case "state:yourturn":
-                ChangeCanvas(1);
-                break;
-            case "escolha1:Pedra":
-                escolha1 = "Pedra";
-                break;
-            case "escolha1:Papel":
-                escolha1 = "Papel";
-                break;
-            case "escolha1:Tesoura":
-                escolha1 = "Tesoura";
-                break;
-            case "winner:player1":
-                vencedor = "Player 1 Ganhou!";
-                ChangeCanvas(2);
-                FinalScreen();
-                break;
-            case "winner:player2":
-                vencedor = "Player 2 Ganhou!";
-                ChangeCanvas(2);
-                FinalScreen();
-                break;
-            case "winner:tie":
-                vencedor = "Empate!";
-                ChangeCanvas(2);
-                FinalScreen();
-                break;
-        }
-
-
-    }
-    
     void ChangeCanvas(int index)
     {
-        switch (index)
-        {
-            case 0:
-                canvas1.SetActive(true);
-                canvas2.SetActive(false); //desativa tudo e deixa so o 1 (player 1)
-                canvas3.SetActive(false);
-                break;
-            case 1:
-                canvas1.SetActive(false);
-                canvas2.SetActive(true); // desativa tudo e deixa so o 2 (player 2)
-                canvas3.SetActive(false);
-                break;
-            case 2:
-                canvas1.SetActive(false);
-                canvas2.SetActive(false); // desativa tudo e deixa so o 3 (tela final)
-                canvas3.SetActive(true);
-                break;
-        
-        }
+        canvas1.SetActive(index == 0);
+        canvas2.SetActive(index == 1);
+        canvas3.SetActive(index == 2);
     }
 
     void FinalScreen()

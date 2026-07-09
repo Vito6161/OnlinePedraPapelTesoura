@@ -11,32 +11,43 @@ public class Server : MonoBehaviour
     public TcpClient client;
     public int port = 7777;
     public NetworkStream stream;
-    Thread receiveThread, waitingClientThread;
+
+    Thread receiveThread;
+    Thread waitingClientThread;
 
     [Header("Message Settings")]
     public string receivedMessage;
-    
+
+    private string messageBuffer = "";
+
+    public static Action<string> OnReceivedMessage;
+
     void Start()
     {
         server = new TcpListener(IPAddress.Any, port);
         server.Start();
-        Debug.Log("Servidor iniciado na porta: " + port);    
 
-        waitingClientThread = new Thread(new ThreadStart(WaitForClient));
+        Debug.Log("Servidor iniciado na porta: " + port);
+
+        waitingClientThread = new Thread(WaitForClient);
+        waitingClientThread.IsBackground = true;
         waitingClientThread.Start();
     }
 
     void WaitForClient()
     {
+        Debug.Log("Esperando cliente...");
 
         client = server.AcceptTcpClient();
+
+        Debug.Log("Cliente conectado!");
+
         stream = client.GetStream();
 
-        receiveThread = new Thread(new ThreadStart(ReceiveData));
+        receiveThread = new Thread(ReceiveData);
+        receiveThread.IsBackground = true;
         receiveThread.Start();
-            
     }
-
 
     public void ReceiveData()
     {
@@ -44,26 +55,69 @@ public class Server : MonoBehaviour
 
         while (true)
         {
-            int bytesRead = stream.Read(buffer, 0, buffer.Length);
-
-            if(bytesRead == 0)
+            try
             {
-                Debug.Log("Cliente desconectou");
+                int bytesRead = stream.Read(buffer, 0, buffer.Length);
+
+                if (bytesRead == 0)
+                {
+                    Debug.Log("Cliente desconectou.");
+                    break;
+                }
+
+                messageBuffer += System.Text.Encoding.UTF8.GetString(buffer, 0, bytesRead);
+
+                while (messageBuffer.Contains("\n"))
+                {
+                    int index = messageBuffer.IndexOf('\n');
+
+                    string message = messageBuffer.Substring(0, index).Trim();
+
+                    messageBuffer = messageBuffer.Substring(index + 1);
+
+                    receivedMessage = message;
+
+                    Debug.Log("Recebido: " + receivedMessage);
+
+                    OnReceivedMessage?.Invoke(receivedMessage);
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.Log("Erro ao receber: " + e.Message);
                 break;
             }
-
-            receivedMessage = System.Text.Encoding.UTF8.GetString(buffer, 0, bytesRead);
-            OnReceivedMessage?.Invoke(receivedMessage);
         }
     }
 
     public void SendData(string sentMessage)
     {
-        byte[] data = System.Text.Encoding.UTF8.GetBytes(sentMessage);
-        stream.Write(data, 0, data.Length);
+        if (client == null || !client.Connected || stream == null)
+        {
+            Debug.LogWarning("Nenhum cliente conectado.");
+            return;
+        }
+
+        try
+        {
+            byte[] data = System.Text.Encoding.UTF8.GetBytes(sentMessage + "\n");
+            stream.Write(data, 0, data.Length);
+
+            Debug.Log("Enviado: " + sentMessage);
+        }
+        catch (Exception e)
+        {
+            Debug.Log("Erro ao enviar: " + e.Message);
+        }
     }
 
-    public static Action<string> OnReceivedMessage;
+    void OnDestroy()
+    {
+        receiveThread?.Abort();
+        waitingClientThread?.Abort();
 
-
+        stream?.Close();
+        client?.Close();
+        server?.Stop();
+    }
 }
