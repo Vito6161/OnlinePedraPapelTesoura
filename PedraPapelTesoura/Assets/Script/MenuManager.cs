@@ -11,7 +11,7 @@ public class MenuManager : MonoBehaviour
 
     public void Join() // falta implementar. Somente na segunda fase do projeto
     {
-        return;
+        SceneManager.LoadScene(2);;
     }
 
     public void Quit()
