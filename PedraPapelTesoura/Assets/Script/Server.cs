@@ -24,6 +24,8 @@ public class Server : MonoBehaviour
 
     void Start()
     {
+        Debug.Log("Iniciando servidor...");
+        
         server = new TcpListener(IPAddress.Any, port);
         server.Start();
 

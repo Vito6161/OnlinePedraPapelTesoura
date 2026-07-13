@@ -189,7 +189,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4570549782729510974, guid: 47a8e31f7d44cb746b800be01baaa3e1, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4920067226104352669, guid: 47a8e31f7d44cb746b800be01baaa3e1, type: 3}
       propertyPath: m_Pivot.x
@@ -617,8 +617,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+      - m_Target: {fileID: 1016181759}
+        m_TargetAssemblyTypeName: GameManagerClient, Assembly-CSharp
         m_MethodName: GoToMenu
         m_Mode: 1
         m_Arguments:
@@ -1086,8 +1086,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89ff4732d39daaf47bc27f1bf939207f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Client
-  port: 7777
-  serverIP: 192.168.0.4
+  port: 9000
+  serverIP: 10.57.1.24
   receivedMessage: 
 --- !u!114 &1016181759
 MonoBehaviour:
@@ -1465,7 +1465,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4570549782729510974, guid: 47a8e31f7d44cb746b800be01baaa3e1, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4920067226104352669, guid: 47a8e31f7d44cb746b800be01baaa3e1, type: 3}
       propertyPath: m_Pivot.x
