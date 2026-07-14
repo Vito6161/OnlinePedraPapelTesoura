@@ -1,10 +1,13 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections.Generic;
+using System.Net;
+using System.Net.Sockets;
 
 public class GameManager : MonoBehaviour
 {
     private Server server;
+    public bool isPlayerConnected;
 
     [Header("Game State")]
     public string escolha1;
@@ -12,6 +15,7 @@ public class GameManager : MonoBehaviour
     public string vencedor;
 
     [Header("Canvas")]
+    [SerializeField] private GameObject canvas0;
     [SerializeField] private GameObject canvas1;
     [SerializeField] private GameObject canvas2;
     [SerializeField] private GameObject canvas3;
@@ -20,6 +24,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TMPro.TextMeshProUGUI escolha1Text;
     [SerializeField] private TMPro.TextMeshProUGUI escolha2Text;
     [SerializeField] private TMPro.TextMeshProUGUI vencedorText;
+    [SerializeField] private TMPro.TextMeshProUGUI ipText;
 
     //Fila de mensagens (thread segura)
     private readonly Queue<string> mensagens = new Queue<string>();
@@ -28,7 +33,7 @@ public class GameManager : MonoBehaviour
     {
         server = FindObjectOfType<Server>();
 
-        ChangeCanvas(0);
+        //ChangeCanvas(0);
     }
 
     void OnEnable()
@@ -41,11 +46,22 @@ public class GameManager : MonoBehaviour
         Server.OnReceivedMessage -= ReceberMensagem;
     }
 
+    void Start()
+    {
+        ipText.text = GetLocalIPAddress();
+    }
+
     void Update()
     {
         while (mensagens.Count > 0)
         {
             ProcessarMensagem(mensagens.Dequeue());
+        }
+
+        if(isPlayerConnected) 
+        {
+            ChangeCanvas(0);
+            isPlayerConnected = false;
         }
     }
 
@@ -103,11 +119,12 @@ public class GameManager : MonoBehaviour
         FinalScreen();
     }
 
-    void ChangeCanvas(int index)
+    public void ChangeCanvas(int index)
     {
         canvas1.SetActive(index == 0);
         canvas2.SetActive(index == 1);
         canvas3.SetActive(index == 2);
+        canvas0.SetActive(index == 3);
     }
 
     void FinalScreen()
@@ -120,5 +137,20 @@ public class GameManager : MonoBehaviour
     public void GoToMenu()
     {
         SceneManager.LoadScene(0);
+    }
+
+    string GetLocalIPAddress()
+    {
+        var host = Dns.GetHostEntry(Dns.GetHostName());
+
+        foreach (var ip in host.AddressList)
+        {
+            if (ip.AddressFamily == AddressFamily.InterNetwork)
+            {
+                return ip.ToString();
+            }
+        }
+
+        return "IP não encontrado";
     }
 }

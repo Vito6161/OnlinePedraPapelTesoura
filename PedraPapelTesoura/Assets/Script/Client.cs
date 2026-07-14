@@ -10,8 +10,8 @@ public class Client : MonoBehaviour
     public NetworkStream stream;
     public Thread receiveThread;
 
-    public int port = 7777;
-    public string serverIP = "192.168.0.4";
+    public int port = 9000;
+    public string serverIP;
 
     [Header("Message Settings")]
     public string receivedMessage;
@@ -22,6 +22,7 @@ public class Client : MonoBehaviour
 
     void Start()
     {
+
         try
         {
             client = new TcpClient();
@@ -123,4 +124,6 @@ public class Client : MonoBehaviour
         stream?.Close();
         client?.Close();
     }
+
+
 }

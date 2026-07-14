@@ -22,6 +22,8 @@ public class Server : MonoBehaviour
 
     public static Action<string> OnReceivedMessage;
 
+    [SerializeField] private GameManager manager;
+
     void Start()
     {
         Debug.Log("Iniciando servidor...");
@@ -41,6 +43,7 @@ public class Server : MonoBehaviour
         Debug.Log("Esperando cliente...");
 
         client = server.AcceptTcpClient();
+        manager.isPlayerConnected = true;
 
         Debug.Log("Cliente conectado!");
 

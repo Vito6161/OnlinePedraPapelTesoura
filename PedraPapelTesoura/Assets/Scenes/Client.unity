@@ -189,7 +189,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4570549782729510974, guid: 47a8e31f7d44cb746b800be01baaa3e1, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4920067226104352669, guid: 47a8e31f7d44cb746b800be01baaa3e1, type: 3}
       propertyPath: m_Pivot.x
@@ -959,7 +959,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -191}
+  m_AnchoredPosition: {x: 0, y: -153}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &976067253
@@ -1087,7 +1087,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Client
   port: 9000
-  serverIP: 10.57.1.24
+  serverIP: 
   receivedMessage: 
 --- !u!114 &1016181759
 MonoBehaviour:
@@ -1176,7 +1176,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4570549782729510974, guid: 47a8e31f7d44cb746b800be01baaa3e1, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4920067226104352669, guid: 47a8e31f7d44cb746b800be01baaa3e1, type: 3}
       propertyPath: m_Pivot.x

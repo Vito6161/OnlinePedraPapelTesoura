@@ -96,7 +96,7 @@ public class GameManagerClient : MonoBehaviour
         client.SendData("escolha2:" + escolha2);
     }
 
-    void ChangeCanvas(int index)
+    public void ChangeCanvas(int index)
     {
         canvas1.SetActive(index == 0);
         canvas2.SetActive(index == 1);
